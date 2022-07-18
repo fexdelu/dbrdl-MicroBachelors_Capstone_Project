@@ -5,16 +5,31 @@ class HomePage extends React.Component {
   render() {
     return (
       <div>
-        <div style={{display:"flex"}}>
+
+        {/* <div style={{display:"flex"}}>
         <img src='/cardealership.jpeg' style={{width: "300px"}}/>
         <div style={{margin:"100px"}}>
              <span style={{margin:"60px"}}>
-             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+             "IBM CD0351EN - Cloud Application Developer Capstone - Final Submission"
                </span >
            </div>
-
-        </div>
+        </div> */}
         
+        <div class="bg-light">
+          <div class="container py-5">
+            <div class="row h-100 align-items-center py-5">
+              <div class="col-lg-6">
+                <h1 class="display-4">Car dealership company</h1>
+                <p class="lead text-muted mb-0">IBM CD0351EN - Cloud Application Developer Capstone - Final Submission</p>
+              </div>
+              <div class="col-lg-6 d-none d-lg-block">
+                <img src="/cardealership.jpeg" style={{width: "300px"}} class="img-fluid"/>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
     );
   }
