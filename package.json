@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@cloudant/cloudant": "^4.5.1",
+    "@ibm-cloud/cloudant": "^0.1.4",
+    "cloudant": "^1.10.0-NOTICE"
+  }
+}

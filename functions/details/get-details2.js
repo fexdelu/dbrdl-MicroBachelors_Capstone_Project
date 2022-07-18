@@ -1,5 +1,3 @@
-var Cloudant = require('@cloudant/cloudant');
-
 /**
   *
   * main() will be run when you invoke this action
@@ -16,7 +14,6 @@ var Cloudant = require('@cloudant/cloudant');
     CLOUDANT_APIKEY: "IukMHXbwqVIr_OEbs5xGIiXBiTYwdg2lVOodqpjzVLHn",
     type: "reviews",
     date: "04/05/20",
-    dealerId: 13,
   };
 
   main(params);
@@ -34,10 +31,59 @@ var Cloudant = require('@cloudant/cloudant');
 function main(params) {
   return new Promise((resolve, reject) => {
     if (params && params.type === "reviews") {
-      getReviews(params).then(reviews => {
-        console.log(reviews.docs)
-        resolve({"reviews":reviews.docs})
-      });
+    //   getReviews(params).then(reviews => {
+    //     console.log(reviews.docs)
+    //     resolve({"reviews":reviews.docs})
+    //   });
+        const { CloudantV1 } = require('@ibm-cloud/cloudant');
+        const { IamAuthenticator } = require('ibm-cloud-sdk-core');
+        const authenticator = new IamAuthenticator({ apikey: params.CLOUDANT_APIKEY })
+        const cloudant = CloudantV1.newInstance({
+            authenticator: authenticator
+        });
+        cloudant.setServiceUrl(params.CLOUDANT_URL);
+        if (params.dealerId) {
+            cloudant.postFind({db:'reviews',selector:{ dealership: parseInt(params.dealerId) }})
+            .then((result)=>{
+            console.log(result.result.docs);
+            let code = 200;
+            message = "Success"
+            if (result.result.docs.length == 0) {
+                code = 404;
+                message = "The state does not exist"
+            }
+            resolve({
+                statusCode: code,
+                message: message,
+                headers: { 'Content-Type': 'application/json' },
+                body: result.result.docs
+            });
+            }).catch((err)=>{
+            reject(err);
+            })
+        }
+        else {
+            cloudant.postFind({db:'reviews',selector:{ dealership: 1 }})
+            .then((result)=>{
+            console.log(result.result.docs);
+            let code = 200;
+            message = "Success"
+            if (result.result.docs.length == 0) {
+                code = 404;
+                message = "The state does not exist"
+            }
+            resolve({
+                statusCode: code,
+                message: message,
+                headers: { 'Content-Type': 'application/json' },
+                body: result.result.docs
+            });
+            }).catch((err)=>{
+            reject(err);
+            })
+
+        }
+
     } else if (params && params.type === "timeslots") {
       if (params.date) {
         resolve(getTimeSlots(params.date));
